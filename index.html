@@ -55,64 +55,44 @@
             100% { opacity: 1; }
         }
 
-        .follow-up-message {
-            font-size: 1.5em;
+        .house {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-template-rows: repeat(5, 50px);
+            grid-gap: 2px;
+            justify-content: center;
             margin-top: 20px;
             opacity: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            animation: fadeInHouse 1s ease-in forwards;
+            animation-delay: 2s; /* Start after "Testing in progress..." */
+        }
+
+        @keyframes fadeInHouse {
+            to { opacity: 1; }
         }
 
         .brick {
-            width: 60%;
+            width: 50px;
             height: 50px;
-            background-color: lightblue;
-            margin: 10px 0;
+            background-color: brown;
             opacity: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2em;
-            border-radius: 5px;
-            transform: scaleY(0);
-            animation: buildBrick 1s ease forwards;
+            animation: buildBrick 0.5s ease forwards;
         }
 
         @keyframes buildBrick {
-            0% { opacity: 0; transform: scaleY(0); }
-            100% { opacity: 1; transform: scaleY(1); }
+            to { opacity: 1; }
         }
 
-        /* Delay the bricks to simulate construction */
-        .brick:nth-child(1) {
-            animation-delay: 1s;
+        .message-text {
+            font-size: 1.3em;
+            margin: 10px 0;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
         }
 
-        .brick:nth-child(2) {
-            animation-delay: 2s;
-        }
-
-        .brick:nth-child(3) {
-            animation-delay: 3s;
-        }
-
-        .brick:nth-child(4) {
-            animation-delay: 4s;
-        }
-
-        .brick:nth-child(5) {
-            animation-delay: 5s;
-        }
-
-        .brick:nth-child(6) {
-            animation-delay: 6s;
-        }
-
-        .brick a {
-            color: #282c34;
+        .message-text a {
+            color: lightblue;
             text-decoration: none;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -126,22 +106,61 @@
                 <span>.</span>
             </span>
         </div>
-        <div class="follow-up-message" id="follow-up-message">
-            <div class="brick">Automated End-to-End Testing Framework</div>
-            <div class="brick">with GitHub</div>
-            <div class="brick">Jira</div>
-            <div class="brick">Jenkins</div>
-            <div class="brick">ChatGPT Integration</div>
-            <div class="brick">for <a href='https://www.mydetails.life' target='_blank'>www.mydetails.life</a></div>
+        <div class="house" id="house">
+            <!-- Bricks will be generated here -->
         </div>
     </div>
 
     <script>
-        // Delay before showing the follow-up message
+        // Delay before building the house
         setTimeout(function() {
-            var followUpMessage = document.getElementById("follow-up-message");
-            followUpMessage.style.opacity = "1"; // Reveal the container for the animated text
-        }, 4000); // 4 seconds delay for testing in progress
+            var house = document.getElementById("house");
+
+            // Define the positions of the bricks to form a house
+            var brickPositions = [
+                {row: 1, col: 3}, // Roof apex
+                {row: 2, col: 2}, {row: 2, col: 3}, {row: 2, col: 4}, // Roof sides
+                {row: 3, col: 1}, {row: 3, col: 2}, {row: 3, col: 3}, {row: 3, col: 4}, {row: 3, col: 5}, // Upper wall
+                {row: 4, col: 1}, {row: 4, col: 2}, {row: 4, col: 3}, {row: 4, col: 4}, {row: 4, col: 5}, // Middle wall
+                {row: 5, col: 1}, {row: 5, col: 2}, {row: 5, col: 3}, {row: 5, col: 4}, {row: 5, col: 5}, // Lower wall
+            ];
+
+            brickPositions.forEach(function(pos, index) {
+                var brick = document.createElement('div');
+                brick.className = 'brick';
+                brick.style.gridRowStart = pos.row;
+                brick.style.gridColumnStart = pos.col;
+                brick.style.animationDelay = (index * 0.2) + 's';
+                house.appendChild(brick);
+            });
+
+            // Show messages after the house is built
+            setTimeout(function() {
+                var messages = [
+                    "Automated End-to-End Testing Framework",
+                    "with GitHub",
+                    "Jenkins",
+                    "Jira",
+                    "ChatGPT Integration",
+                    "for <a href='https://www.mydetails.life' target='_blank'>www.mydetails.life</a>"
+                ];
+
+                var followUpMessage = document.createElement('div');
+                followUpMessage.className = 'follow-up-message';
+
+                messages.forEach(function(text, index) {
+                    var messageDiv = document.createElement('div');
+                    messageDiv.className = 'message-text';
+                    messageDiv.innerHTML = text;
+                    messageDiv.style.animationDelay = (index * 1) + 's';
+                    followUpMessage.appendChild(messageDiv);
+                });
+
+                document.querySelector('.message-container').appendChild(followUpMessage);
+
+            }, brickPositions.length * 200 + 1000); // Start after bricks have appeared
+
+        }, 2000); // 2 seconds delay for "Testing in progress..."
     </script>
 
 </body>
