@@ -56,7 +56,7 @@
         }
 
         .follow-up-message {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin-top: 20px;
             opacity: 0;
             display: flex;
@@ -65,42 +65,45 @@
         }
 
         .brick {
-            background-color: lightblue;
-            width: 80%;
-            height: 30px;
-            margin: 5px 0;
             opacity: 0;
-            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 1.3em;
+            animation: buildBrick 1s ease forwards;
         }
 
         @keyframes buildBrick {
-            0% { opacity: 0; transform: scaleY(0); }
-            100% { opacity: 1; transform: scaleY(1); }
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* Animations for the bricks */
+        /* Delay the bricks to simulate construction */
         .brick:nth-child(1) {
-            animation: buildBrick 1s ease forwards 1s;
+            animation-delay: 1s;
         }
 
         .brick:nth-child(2) {
-            animation: buildBrick 1s ease forwards 2s;
+            animation-delay: 2s;
         }
 
         .brick:nth-child(3) {
-            animation: buildBrick 1s ease forwards 3s;
+            animation-delay: 3s;
         }
 
         .brick:nth-child(4) {
-            animation: buildBrick 1s ease forwards 4s;
+            animation-delay: 4s;
         }
 
         .brick:nth-child(5) {
-            animation: buildBrick 1s ease forwards 5s;
+            animation-delay: 5s;
         }
 
         .brick:nth-child(6) {
-            animation: buildBrick 1s ease forwards 6s;
+            animation-delay: 6s;
+        }
+
+        .brick a {
+            color: lightblue;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -115,29 +118,21 @@
             </span>
         </div>
         <div class="follow-up-message" id="follow-up-message">
-            <div class="brick"></div>
-            <div class="brick"></div>
-            <div class="brick"></div>
-            <div class="brick"></div>
-            <div class="brick"></div>
-            <div class="brick"></div>
+            <div class="brick">Automated End-to-End Testing Framework</div>
+            <div class="brick">with GitHub</div>
+            <div class="brick">Jenkins</div>
+            <div class="brick">Jira</div>
+            <div class="brick">ChatGPT Integration</div>
+            <div class="brick">for <a href='https://www.mydetails.life' target='_blank'>www.mydetails.life</a></div>
         </div>
     </div>
 
     <script>
-        // After a delay, show the second message to simulate the building process
+        // Delay before showing the follow-up message
         setTimeout(function() {
             var followUpMessage = document.getElementById("follow-up-message");
-
-            followUpMessage.innerHTML = `
-                <div class="brick">Automated End-to-End Testing Framework</div>
-                <div class="brick">with GitHub</div>
-                <div class="brick">Jenkins</div>
-                <div class="brick">Jira</div>
-                <div class="brick">ChatGPT Integration</div>
-                <div class="brick">for <a href='https://www.mydetails.life' target='_blank' style='color: white;'>www.mydetails.life</a></div>
-            `;
-        }, 4000); // Delay of 4 seconds
+            followUpMessage.style.opacity = "1"; // Reveal the container for the animated text
+        }, 4000); // 4 seconds delay for testing in progress
     </script>
 
 </body>
