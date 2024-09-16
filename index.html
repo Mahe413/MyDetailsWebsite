@@ -2,22 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automated Testing in Progress</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* General Styles */
         body {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #282c34;
-            font-family: Arial, sans-serif;
-            color: white;
+            background: linear-gradient(135deg, #1d2b64, #f8cdda);
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            overflow: hidden;
         }
 
         .message-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
         }
 
@@ -47,18 +51,18 @@
 
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
         }
 
         @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .house {
             display: grid;
-            grid-template-columns: repeat(5, auto);
-            grid-gap: 2px;
+            grid-template-columns: repeat(7, auto);
+            grid-gap: 5px;
             justify-content: center;
             margin-top: 20px;
             opacity: 0;
@@ -71,10 +75,11 @@
         }
 
         .brick {
-            min-width: 60px;
-            min-height: 40px;
-            background-color: blue; /* Initial color */
-            color: white;
+            min-width: 70px;
+            min-height: 50px;
+            background-color: #ff6f61;
+            background-image: linear-gradient(145deg, #ff6f61, #de5a50);
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -83,16 +88,31 @@
             box-sizing: border-box;
             opacity: 0;
             animation: buildBrick 0.5s ease forwards;
-            font-size: 0.8em;
+            font-size: 0.9em;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         @keyframes buildBrick {
-            to { opacity: 1; }
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .brick a {
             color: inherit;
             text-decoration: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .message {
+                font-size: 2em;
+            }
+            .brick {
+                min-width: 50px;
+                min-height: 40px;
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
@@ -112,44 +132,37 @@
     </div>
 
     <script>
-        var colorIndex = 0; // 0 for blue, 1 for red
-        var colors = ['blue', 'red'];
+        var colorIndex = 0;
+        var colors = ['#ff6f61', '#6b5b95', '#88b04b'];
 
         var brickPositions = [
-            {row: 1, col: 3}, // Roof apex
-            {row: 2, col: 2}, {row: 2, col: 3}, {row: 2, col: 4}, // Roof sides
-            {row: 3, col: 1}, {row: 3, col: 2}, {row: 3, col: 3}, {row: 3, col: 4}, {row: 3, col: 5}, // Upper wall
-            {row: 4, col: 1}, {row: 4, col: 2}, {row: 4, col: 3}, {row: 4, col: 4}, {row: 4, col: 5}, // Middle wall
-            {row: 5, col: 1}, {row: 5, col: 2}, {row: 5, col: 3}, {row: 5, col: 4}, {row: 5, col: 5}  // Lower wall
+            {row: 1, col: 4}, // Roof apex
+            {row: 2, col: 3}, {row: 2, col: 4}, {row: 2, col: 5}, // Roof sides
+            {row: 3, col: 2}, {row: 3, col: 3}, {row: 3, col: 4}, {row: 3, col: 5}, {row: 3, col: 6}, // Upper wall
+            {row: 4, col: 1}, {row: 4, col: 2}, {row: 4, col: 3}, {row: 4, col: 4}, {row: 4, col: 5}, {row: 4, col: 6}, {row: 4, col: 7}, // Middle wall
+            {row: 5, col: 1}, {row: 5, col: 2}, {row: 5, col: 3}, {row: 5, col: 4}, {row: 5, col: 5}, {row: 5, col: 6}, {row: 5, col: 7}  // Lower wall
         ];
 
-        var totalDuration = 2000 + ((brickPositions.length - 1) * 200) + 500 + 1000; // in milliseconds
+        var totalDuration = 2000 + ((brickPositions.length - 1) * 200) + 500 + 1000;
 
         function buildHouse() {
-            // Remove existing bricks
             var house = document.getElementById("house");
-            house.innerHTML = ''; // Clear existing bricks
+            house.innerHTML = '';
 
-            // Reset house opacity and animation
             house.style.opacity = '0';
             house.style.animation = 'none';
-
-            // Force reflow
             void house.offsetWidth;
-
-            // Re-apply the animation
             house.style.animation = 'fadeInHouse 1s ease-in forwards';
 
-            // Define the words to be used as bricks
             var words = [
-                "With_Automated",
-                "End_to_End",
+                "Automated",
+                "End-to-End",
                 "Testing",
                 "Framework",
-                "using",
+                "Using",
                 "LLM",
                 "Gherkin",
-                "HTML_&_CSS",
+                "HTML & CSS",
                 "JavaScript",
                 "SQL",
                 "JUnit",
@@ -158,12 +171,13 @@
                 "GitHub",
                 "Jira",
                 "Jenkins",
-                "Containerisation",
+                "Containerization",
                 "Postman",
-                "OWASP_ZAP"
+                "OWASP ZAP",
+                "ChatGPT",
+                "<a href='https://www.mydetails.life' target='_blank'>www.mydetails.life</a>"
             ];
 
-            // Build the house with words as bricks
             brickPositions.forEach(function(pos, index) {
                 var brick = document.createElement('div');
                 brick.className = 'brick';
@@ -172,25 +186,29 @@
                 brick.style.animationDelay = (index * 0.2) + 's';
                 brick.innerHTML = words[index] || "";
 
-                // Set the color based on the current color index
                 brick.style.backgroundColor = colors[colorIndex];
+                brick.style.backgroundImage = 'linear-gradient(145deg, ' + colors[colorIndex] + ', ' + shadeColor(colors[colorIndex], -15) + ')';
 
                 house.appendChild(brick);
             });
 
-            // After building, toggle the color index
             colorIndex = (colorIndex + 1) % colors.length;
+        }
+
+        function shadeColor(color, percent) {
+            var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent;
+            var R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+            return "#" + (0x1000000 + (Math.round((t-R)*p/100)+R)*0x10000 + (Math.round((t-G)*p/100)+G)*0x100 + (Math.round((t-B)*p/100)+B)).toString(16).slice(1);
         }
 
         setTimeout(function() {
             buildHouse();
 
-            // Set interval to rebuild the house every totalDuration
             setInterval(function() {
                 buildHouse();
             }, totalDuration);
 
-        }, 2000); // Initial 2-second delay
+        }, 2000);
     </script>
 
 </body>
