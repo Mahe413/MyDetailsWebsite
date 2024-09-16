@@ -65,15 +65,23 @@
         }
 
         .brick {
-            opacity: 0;
+            width: 60%;
+            height: 50px;
+            background-color: lightblue;
             margin: 10px 0;
-            font-size: 1.3em;
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+            border-radius: 5px;
+            transform: scaleY(0);
             animation: buildBrick 1s ease forwards;
         }
 
         @keyframes buildBrick {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% { opacity: 0; transform: scaleY(0); }
+            100% { opacity: 1; transform: scaleY(1); }
         }
 
         /* Delay the bricks to simulate construction */
@@ -102,8 +110,9 @@
         }
 
         .brick a {
-            color: lightblue;
+            color: #282c34;
             text-decoration: none;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -120,8 +129,8 @@
         <div class="follow-up-message" id="follow-up-message">
             <div class="brick">Automated End-to-End Testing Framework</div>
             <div class="brick">with GitHub</div>
-            <div class="brick">Jenkins</div>
             <div class="brick">Jira</div>
+            <div class="brick">Jenkins</div>
             <div class="brick">ChatGPT Integration</div>
             <div class="brick">for <a href='https://www.mydetails.life' target='_blank'>www.mydetails.life</a></div>
         </div>
