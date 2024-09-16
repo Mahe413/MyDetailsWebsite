@@ -29,12 +29,17 @@
             font-size: 2.5em;
             opacity: 0;
             animation: fadeIn 2s ease-in forwards;
+            display: inline-block;
+        }
+
+        .dots {
+            display: inline-block;
+            margin-left: 5px;
         }
 
         .dots span {
-            display: inline-block;
-            font-size: 2.5em;
-            animation: bounce 1.5s infinite;
+            opacity: 0;
+            animation: fade 1s infinite;
         }
 
         .dots span:nth-child(1) {
@@ -42,16 +47,16 @@
         }
 
         .dots span:nth-child(2) {
-            animation-delay: 0.2s;
+            animation-delay: 0.3s;
         }
 
         .dots span:nth-child(3) {
-            animation-delay: 0.4s;
+            animation-delay: 0.6s;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        @keyframes fade {
+            0%, 20%, 100% { opacity: 0; }
+            40% { opacity: 1; }
         }
 
         @keyframes fadeIn {
@@ -77,7 +82,7 @@
         .brick {
             min-width: 70px;
             min-height: 50px;
-            background-color: blue; /* Initial color */
+            background-color: blue;
             background-image: linear-gradient(145deg, blue, #00008b);
             color: #fff;
             display: flex;
@@ -119,7 +124,7 @@
 <body>
 
     <div class="message-container">
-        <div class="message">
+        <div class="message" id="testing-message">
             Testing in progress<span class="dots">
                 <span>.</span>
                 <span>.</span>
@@ -192,22 +197,35 @@
             });
 
             colorIndex = (colorIndex + 1) % colors.length;
+
+            // Hide "Testing in progress" after the house is built
+            var testingMessage = document.getElementById("testing-message");
+            testingMessage.style.display = 'block';
+            setTimeout(function() {
+                testingMessage.style.display = 'none';
+            }, (brickPositions.length * 200) + 1000); // After bricks have appeared
         }
 
         function shadeColor(color, percent) {
-            var f = color.startsWith('#') ? color.slice(1) : color;
+            var f = getComputedStyle(document.body).getPropertyValue('--temp-color');
+            document.body.style.setProperty('--temp-color', color);
+            var rgb = getComputedStyle(document.body).getPropertyValue('--temp-color');
+            var rgbValues = rgb.match(/\d+/g);
+            var R = parseInt(rgbValues[0]);
+            var G = parseInt(rgbValues[1]);
+            var B = parseInt(rgbValues[2]);
+
             var t = percent < 0 ? 0 : 255;
             var p = percent < 0 ? percent * -1 : percent;
-            var R = parseInt(f.substring(0,2),16);
-            var G = parseInt(f.substring(2,4),16);
-            var B = parseInt(f.substring(4,6),16);
-            return "#" + (
-                0x1000000 +
-                (Math.round((t - R) * p / 100) + R) * 0x10000 +
-                (Math.round((t - G) * p / 100) + G) * 0x100 +
-                (Math.round((t - B) * p / 100) + B)
-            ).toString(16).slice(1);
+
+            return "rgb(" + 
+                (Math.round((t - R) * p / 100) + R) + "," + 
+                (Math.round((t - G) * p / 100) + G) + "," + 
+                (Math.round((t - B) * p / 100) + B) + ")";
         }
+
+        // Temporary CSS variable for color conversion
+        document.body.style.setProperty('--temp-color', '');
 
         setTimeout(function() {
             buildHouse();
