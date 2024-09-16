@@ -57,8 +57,7 @@
 
         .house {
             display: grid;
-            grid-template-columns: repeat(5, 50px);
-            grid-template-rows: repeat(5, 50px);
+            grid-template-columns: repeat(5, auto);
             grid-gap: 2px;
             justify-content: center;
             margin-top: 20px;
@@ -72,25 +71,26 @@
         }
 
         .brick {
-            width: 50px;
-            height: 50px;
+            min-width: 60px;
+            min-height: 40px;
             background-color: brown;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 5px;
+            box-sizing: border-box;
             opacity: 0;
             animation: buildBrick 0.5s ease forwards;
+            font-size: 0.8em;
         }
 
         @keyframes buildBrick {
             to { opacity: 1; }
         }
 
-        .message-text {
-            font-size: 1.3em;
-            margin: 10px 0;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards;
-        }
-
-        .message-text a {
+        .brick a {
             color: lightblue;
             text-decoration: none;
         }
@@ -116,49 +116,46 @@
         setTimeout(function() {
             var house = document.getElementById("house");
 
+            // Define the words to be used as bricks
+            var words = [
+                "Automated",
+                "End-to-End",
+                "Testing",
+                "Framework",
+                "with",
+                "GitHub",
+                "Jenkins",
+                "Jira",
+                "ChatGPT",
+                "Integration",
+                "for",
+                "<a href='https://www.mydetails.life' target='_blank'>www.mydetails.life</a>"
+            ];
+
             // Define the positions of the bricks to form a house
             var brickPositions = [
                 {row: 1, col: 3}, // Roof apex
                 {row: 2, col: 2}, {row: 2, col: 3}, {row: 2, col: 4}, // Roof sides
                 {row: 3, col: 1}, {row: 3, col: 2}, {row: 3, col: 3}, {row: 3, col: 4}, {row: 3, col: 5}, // Upper wall
                 {row: 4, col: 1}, {row: 4, col: 2}, {row: 4, col: 3}, {row: 4, col: 4}, {row: 4, col: 5}, // Middle wall
-                {row: 5, col: 1}, {row: 5, col: 2}, {row: 5, col: 3}, {row: 5, col: 4}, {row: 5, col: 5}, // Lower wall
+                {row: 5, col: 1}, {row: 5, col: 2}, {row: 5, col: 3}, {row: 5, col: 4}, {row: 5, col: 5}  // Lower wall
             ];
 
+            // Adjust the number of words to match the number of bricks
+            while (words.length < brickPositions.length) {
+                words.push(""); // Add empty strings if not enough words
+            }
+
+            // Build the house with words as bricks
             brickPositions.forEach(function(pos, index) {
                 var brick = document.createElement('div');
                 brick.className = 'brick';
                 brick.style.gridRowStart = pos.row;
                 brick.style.gridColumnStart = pos.col;
                 brick.style.animationDelay = (index * 0.2) + 's';
+                brick.innerHTML = words[index] || "";
                 house.appendChild(brick);
             });
-
-            // Show messages after the house is built
-            setTimeout(function() {
-                var messages = [
-                    "Automated End-to-End Testing Framework",
-                    "with GitHub",
-                    "Jenkins",
-                    "Jira",
-                    "ChatGPT Integration",
-                    "for <a href='https://www.mydetails.life' target='_blank'>www.mydetails.life</a>"
-                ];
-
-                var followUpMessage = document.createElement('div');
-                followUpMessage.className = 'follow-up-message';
-
-                messages.forEach(function(text, index) {
-                    var messageDiv = document.createElement('div');
-                    messageDiv.className = 'message-text';
-                    messageDiv.innerHTML = text;
-                    messageDiv.style.animationDelay = (index * 1) + 's';
-                    followUpMessage.appendChild(messageDiv);
-                });
-
-                document.querySelector('.message-container').appendChild(followUpMessage);
-
-            }, brickPositions.length * 200 + 1000); // Start after bricks have appeared
 
         }, 2000); // 2 seconds delay for "Testing in progress..."
     </script>
