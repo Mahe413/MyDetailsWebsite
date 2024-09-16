@@ -22,20 +22,32 @@
         }
 
         .message {
-            font-size: 2em;
+            font-size: 2.5em;
             opacity: 0;
             animation: fadeIn 2s ease-in forwards;
         }
 
-        .dots {
+        .dots span {
             display: inline-block;
-            font-size: 2em;
-            animation: blink 1.5s infinite;
+            font-size: 2.5em;
+            animation: bounce 1.5s infinite;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        .dots span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         @keyframes fadeIn {
@@ -47,12 +59,48 @@
             font-size: 1.2em;
             margin-top: 20px;
             opacity: 0;
-            animation: fadeInFollowUp 4s ease-in forwards;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        @keyframes fadeInFollowUp {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
+        .brick {
+            background-color: lightblue;
+            width: 80%;
+            height: 30px;
+            margin: 5px 0;
+            opacity: 0;
+            border-radius: 4px;
+        }
+
+        @keyframes buildBrick {
+            0% { opacity: 0; transform: scaleY(0); }
+            100% { opacity: 1; transform: scaleY(1); }
+        }
+
+        /* Animations for the bricks */
+        .brick:nth-child(1) {
+            animation: buildBrick 1s ease forwards 1s;
+        }
+
+        .brick:nth-child(2) {
+            animation: buildBrick 1s ease forwards 2s;
+        }
+
+        .brick:nth-child(3) {
+            animation: buildBrick 1s ease forwards 3s;
+        }
+
+        .brick:nth-child(4) {
+            animation: buildBrick 1s ease forwards 4s;
+        }
+
+        .brick:nth-child(5) {
+            animation: buildBrick 1s ease forwards 5s;
+        }
+
+        .brick:nth-child(6) {
+            animation: buildBrick 1s ease forwards 6s;
         }
     </style>
 </head>
@@ -60,18 +108,35 @@
 
     <div class="message-container">
         <div class="message">
-            Testing in progress<span class="dots">...</span>
+            Testing in progress<span class="dots">
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+            </span>
         </div>
         <div class="follow-up-message" id="follow-up-message">
-            <!-- This content will be updated by JavaScript -->
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
         </div>
     </div>
 
     <script>
-        // After a delay, show the second message to indicate you're working on the project
+        // After a delay, show the second message to simulate the building process
         setTimeout(function() {
             var followUpMessage = document.getElementById("follow-up-message");
-            followUpMessage.innerHTML = "I'm actively working on my Automated End-to-End Testing Framework <br> with GitHub, Jenkins, Jira, and ChatGPT integration for my dynamic website <br> <a href='https://www.mydetails.life' target='_blank' style='color: lightblue;'>www.mydetails.life</a>";
+
+            followUpMessage.innerHTML = `
+                <div class="brick">Automated End-to-End Testing Framework</div>
+                <div class="brick">with GitHub</div>
+                <div class="brick">Jenkins</div>
+                <div class="brick">Jira</div>
+                <div class="brick">ChatGPT Integration</div>
+                <div class="brick">for <a href='https://www.mydetails.life' target='_blank' style='color: white;'>www.mydetails.life</a></div>
+            `;
         }, 4000); // Delay of 4 seconds
     </script>
 
