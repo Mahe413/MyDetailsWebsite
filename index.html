@@ -61,7 +61,7 @@
 
         .house {
             display: grid;
-            grid-template-columns: repeat(7, auto);
+            grid-template-columns: repeat(5, auto);
             grid-gap: 5px;
             justify-content: center;
             margin-top: 20px;
@@ -77,8 +77,8 @@
         .brick {
             min-width: 70px;
             min-height: 50px;
-            background-color: #ff6f61;
-            background-image: linear-gradient(145deg, #ff6f61, #de5a50);
+            background-color: blue; /* Initial color */
+            background-image: linear-gradient(145deg, blue, #00008b);
             color: #fff;
             display: flex;
             justify-content: center;
@@ -133,14 +133,14 @@
 
     <script>
         var colorIndex = 0;
-        var colors = ['#ff6f61', '#6b5b95', '#88b04b'];
+        var colors = ['blue', 'red'];
 
         var brickPositions = [
-            {row: 1, col: 4}, // Roof apex
-            {row: 2, col: 3}, {row: 2, col: 4}, {row: 2, col: 5}, // Roof sides
-            {row: 3, col: 2}, {row: 3, col: 3}, {row: 3, col: 4}, {row: 3, col: 5}, {row: 3, col: 6}, // Upper wall
-            {row: 4, col: 1}, {row: 4, col: 2}, {row: 4, col: 3}, {row: 4, col: 4}, {row: 4, col: 5}, {row: 4, col: 6}, {row: 4, col: 7}, // Middle wall
-            {row: 5, col: 1}, {row: 5, col: 2}, {row: 5, col: 3}, {row: 5, col: 4}, {row: 5, col: 5}, {row: 5, col: 6}, {row: 5, col: 7}  // Lower wall
+            {row: 1, col: 3}, // Roof apex
+            {row: 2, col: 2}, {row: 2, col: 3}, {row: 2, col: 4}, // Roof sides
+            {row: 3, col: 1}, {row: 3, col: 2}, {row: 3, col: 3}, {row: 3, col: 4}, {row: 3, col: 5}, // Upper wall
+            {row: 4, col: 1}, {row: 4, col: 2}, {row: 4, col: 3}, {row: 4, col: 4}, {row: 4, col: 5}, // Middle wall
+            {row: 5, col: 1}, {row: 5, col: 2}, {row: 5, col: 3}, {row: 5, col: 4}, {row: 5, col: 5}  // Lower wall
         ];
 
         var totalDuration = 2000 + ((brickPositions.length - 1) * 200) + 500 + 1000;
@@ -155,7 +155,7 @@
             house.style.animation = 'fadeInHouse 1s ease-in forwards';
 
             var words = [
-                "Automated",
+                "With Automated",
                 "End-to-End",
                 "Testing",
                 "Framework",
@@ -171,11 +171,9 @@
                 "GitHub",
                 "Jira",
                 "Jenkins",
-                "Containerization",
+                "Containerisation",
                 "Postman",
-                "OWASP ZAP",
-                "ChatGPT",
-                "<a href='https://www.mydetails.life' target='_blank'>www.mydetails.life</a>"
+                "OWASP ZAP"
             ];
 
             brickPositions.forEach(function(pos, index) {
@@ -186,8 +184,9 @@
                 brick.style.animationDelay = (index * 0.2) + 's';
                 brick.innerHTML = words[index] || "";
 
-                brick.style.backgroundColor = colors[colorIndex];
-                brick.style.backgroundImage = 'linear-gradient(145deg, ' + colors[colorIndex] + ', ' + shadeColor(colors[colorIndex], -15) + ')';
+                var currentColor = colors[colorIndex];
+                brick.style.backgroundColor = currentColor;
+                brick.style.backgroundImage = 'linear-gradient(145deg, ' + currentColor + ', ' + shadeColor(currentColor, -15) + ')';
 
                 house.appendChild(brick);
             });
@@ -196,9 +195,18 @@
         }
 
         function shadeColor(color, percent) {
-            var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent;
-            var R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
-            return "#" + (0x1000000 + (Math.round((t-R)*p/100)+R)*0x10000 + (Math.round((t-G)*p/100)+G)*0x100 + (Math.round((t-B)*p/100)+B)).toString(16).slice(1);
+            var f = color.startsWith('#') ? color.slice(1) : color;
+            var t = percent < 0 ? 0 : 255;
+            var p = percent < 0 ? percent * -1 : percent;
+            var R = parseInt(f.substring(0,2),16);
+            var G = parseInt(f.substring(2,4),16);
+            var B = parseInt(f.substring(4,6),16);
+            return "#" + (
+                0x1000000 +
+                (Math.round((t - R) * p / 100) + R) * 0x10000 +
+                (Math.round((t - G) * p / 100) + G) * 0x100 +
+                (Math.round((t - B) * p / 100) + B)
+            ).toString(16).slice(1);
         }
 
         setTimeout(function() {
